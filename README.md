@@ -21,3 +21,8 @@ The Keiba project is a horse racing simulation application that allows users to 
 
 ## Author
 This project was developed as a simulation exercise in object-oriented programming and Java.
+
+
+javac -d . src/Keiba/*.java -encoding UTF-8
+
+java Keiba.Keiba

@@ -1,6 +1,5 @@
 package Keiba;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -138,7 +137,7 @@ public class Keiba{
                 + "1：単勝\n"
                 + "2：複勝\n"
                 + "3：三連単\n"
-                + "4：三連"));
+                + "4：三連複"));
 
         ticketType = sc.nextInt();
 
