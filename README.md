@@ -25,4 +25,4 @@ This project was developed as a simulation exercise in object-oriented programmi
 
 javac -d . src/Keiba/*.java -encoding UTF-8
 
-java Keiba.Keiba
+java Keiba.Main
