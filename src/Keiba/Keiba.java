@@ -7,18 +7,24 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Keiba{
+public class Keiba {
 
     private static final Random r = new Random();
     Scanner sc = new Scanner(System.in);
 
     private int bet;
 
+    private int money;
+
     private int ticketType;
 
-    private final int WEIGHT = 17;
+    private final int WEIGHT = 12;
 
-    private final int ENTRY_COUNT = 8;
+    private final int ENTRY_COUNT = 16;
+
+    public Keiba(int money){
+        this.money = money;
+    }
 
     private List<Horse> entryList = IntStream.rangeClosed(1, ENTRY_COUNT)
             .boxed()
@@ -128,6 +134,14 @@ public class Keiba{
         }
     }
 
+    public int getMoney() {
+        return this.money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
     public void Race() {
         generateOdds();
         setAllPopularity();
@@ -204,9 +218,15 @@ public class Keiba{
             default:
                 break;
         }
-
+        System.out.println(String.format("現在の所持金：%d", getMoney()));
         System.out.print("賭ける金額を入力してください：");
         bet = sc.nextInt();
+        while (getMoney() * 3 <= bet) {
+            System.out.println(String.format("所持金の2倍以上の借金はできません。\n"
+                    + "入力は%d以下としてください", getMoney() * 3));
+            bet = sc.nextInt();
+        }
+        setMoney(getMoney() - bet);
 
         try {
             for (int i = 0; i < 5; i++) {
@@ -219,12 +239,36 @@ public class Keiba{
 
         ranking();
         System.out.println(getRaceResult());
-        sc.close();
-        System.out.println(String.format("払戻金：%d円", checkPayOut(bet, ticketType, ticket)));
+        int ret = checkPayOut(bet, ticketType, ticket);
+        setMoney(getMoney() + ret);
+        System.out.println(String.format("払戻金：%d円", ret));
     }
 
-    public static void main(String[] args){
-        Keiba keiba = new Keiba();
-        keiba.Race();
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        boolean play = true;
+        int k = 100000;
+        while (play) {
+            Keiba keiba = new Keiba(k);
+            System.out.println(String.format("あなたの軍資金は%d円です", keiba.getMoney()));
+            keiba.Race();
+            if (keiba.getMoney() <= 0) {
+                System.out.println(String.format("あなたは破産しました。"));
+                if (keiba.getMoney() < 0)
+                    System.out.println(String.format("借金額：%d", keiba.getMoney() * -1));
+                break;
+            }
+            System.out.println(String.format("あなたの軍資金は%d円です", keiba.getMoney()));
+            System.out.println(String.format("続けますか?y/n"));
+            String input = sc.nextLine();
+            while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
+                System.out.println(String.format("入力はY,y,N,nのみ受け付けています"));
+                input = sc.nextLine();
+            }
+            if (input.equalsIgnoreCase("n"))
+                play = false;
+            k = keiba.getMoney();
+        }
+        sc.close();
     }
 }
