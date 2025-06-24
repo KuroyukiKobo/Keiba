@@ -221,7 +221,7 @@ public class Keiba {
         System.out.println(String.format("現在の所持金：%d", getMoney()));
         System.out.print("賭ける金額を入力してください：");
         bet = sc.nextInt();
-        while (getMoney() * 3 <= bet) {
+        while (getMoney() * 3 < bet) {
             System.out.println(String.format("所持金の2倍以上の借金はできません。\n"
                     + "入力は%d以下としてください", getMoney() * 3));
             bet = sc.nextInt();
@@ -230,7 +230,7 @@ public class Keiba {
 
         try {
             for (int i = 0; i < 5; i++) {
-                Thread.sleep(500);
+                Thread.sleep(800);
                 System.out.println("…");
             }
         } catch (InterruptedException e) {
