@@ -247,18 +247,16 @@ public class Keiba {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         boolean play = true;
-        int k = 100000;
+        int money = 100000;
         while (play) {
-            Keiba keiba = new Keiba(k);
-            System.out.println(String.format("あなたの軍資金は%d円です", keiba.getMoney()));
+            Keiba keiba = new Keiba(money);
+            System.out.println(String.format("あなたの軍資金は%d円です", money));
             keiba.Race();
-            if (keiba.getMoney() <= 0) {
-                System.out.println(String.format("あなたは破産しました。"));
-                if (keiba.getMoney() < 0)
-                    System.out.println(String.format("借金額：%d", keiba.getMoney() * -1));
+            money = keiba.getMoney();
+            if (money <= 0) {
                 break;
             }
-            System.out.println(String.format("あなたの軍資金は%d円です", keiba.getMoney()));
+            System.out.println(String.format("あなたの軍資金は%d円です", money));
             System.out.println(String.format("続けますか?y/n"));
             String input = sc.nextLine();
             while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
@@ -267,8 +265,13 @@ public class Keiba {
             }
             if (input.equalsIgnoreCase("n"))
                 play = false;
-            k = keiba.getMoney();
         }
+        if(money <= 0)
+            System.out.println(String.format("あなたは破産しました。"));
+        if (money < 0)
+            System.out.println(String.format("借金額：%d", money * -1));
+        if(money > 0)
+            System.out.println(String.format("最終資金：%d", money));
         sc.close();
     }
 }
