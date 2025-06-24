@@ -7,16 +7,16 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         Color color = new Color();
         boolean play = true;
-        int money = 100000;
+        System.out.println(String.format("初期資金を入力してください。(推奨:100000)"));
+        int money = sc.nextInt();
         while (play) {
             Keiba keiba = new Keiba(money);
-            System.out.println(String.format("あなたの軍資金は%d円です", money));
             keiba.Race();
             money = keiba.getMoney();
             if (money <= 0) {
                 break;
             }
-            System.out.println(String.format("あなたの軍資金は%d円です", money));
+            System.out.println(String.format("あなたの所持金は%d円です", money));
             System.out.println(String.format("続けますか?y/n"));
             String input = sc.nextLine();
             while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
